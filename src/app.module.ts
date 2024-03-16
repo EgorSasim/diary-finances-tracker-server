@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './controllers/auth/auth.module';
 import { UserModule } from './users/user/user.module';
 import { APP_GUARD, Reflector } from '@nestjs/core';
-import { AuthGuard } from './controllers/auth/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './controllers/auth/auth.constants';
 
