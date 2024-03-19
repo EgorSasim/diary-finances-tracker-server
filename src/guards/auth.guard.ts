@@ -8,6 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from 'src/decorators/public';
 import { jwtConstants } from '../controllers/auth/auth.constants';
+import { HttpErrorCode } from 'src/typings/http-errors';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -28,7 +29,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException([HttpErrorCode.ExpiredToken]);
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -36,7 +37,7 @@ export class AuthGuard implements CanActivate {
       });
       request['user'] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException([HttpErrorCode.ExpiredToken]);
     }
     return true;
   }
