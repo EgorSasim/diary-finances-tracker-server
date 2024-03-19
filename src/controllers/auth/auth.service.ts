@@ -18,11 +18,12 @@ export class AuthService {
   public async signIn(signInData: SignIn): Promise<AccessToken> {
     const user = await this.userService.findOne(signInData.email);
     if (user?.password !== signInData.password) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException([HttpErrorCode.InvalidCreds]);
     }
     const payload = { sub: user.id, email: user.email };
+    const accessToken = await this.jwtService.signAsync(payload);
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken,
     };
   }
 
@@ -34,9 +35,10 @@ export class AuthService {
     const id = await this.userService.getNextId();
     await this.userService.addUser({ ...signUpData, id });
     const payload = { sub: id, email: signUpData.email };
-
+    const accessToken = await this.jwtService.signAsync(payload);
+    console.log('access token: ', accessToken);
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken,
     };
   }
 }
