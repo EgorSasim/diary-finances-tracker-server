@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CONFIG_NAME, ENTITY_PATH } from './config.constants';
+import {
+  CONFIG_PROPERTY_NAME,
+  MIGRATIONS_PATH,
+  MIGRATIONS_TABLE_NAME,
+  RETRY_ATTEMPTS,
+  RETRY_DELAY,
+} from './config.constants';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
 @Injectable()
 export class ConfigService {
-  constructor(private env: { [k: string]: string | undefined }) {
-    console.log('env: ', env);
-  }
+  constructor(private env: { [k: string]: string | undefined }) {}
 
   private getValue(key: string, throwOnMissing = true): string {
     const value = this.env[key];
@@ -37,29 +41,29 @@ export class ConfigService {
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
-      host: this.getValue(CONFIG_NAME.postgresHost),
-      port: parseInt(this.getValue(CONFIG_NAME.postgresPort)),
-      username: this.getValue(CONFIG_NAME.postgresUser),
-      password: this.getValue(CONFIG_NAME.postgresPassword),
-      database: this.getValue(CONFIG_NAME.postgresDatabase),
-
-      entities: [`${ENTITY_PATH}/*.entity{.ts,.js}`],
-
-      migrationsTableName: 'migration',
-
-      migrations: ['src/migration/*.ts'],
-
+      host: this.getValue(CONFIG_PROPERTY_NAME.postgresHost),
+      port: parseInt(this.getValue(CONFIG_PROPERTY_NAME.postgresPort)),
+      username: this.getValue(CONFIG_PROPERTY_NAME.postgresUser),
+      password: this.getValue(CONFIG_PROPERTY_NAME.postgresPassword),
+      database: this.getValue(CONFIG_PROPERTY_NAME.postgresDatabase),
+      entities: [], //`${ENTITY_PATH}/**/*.entity{.ts,.js}` //join(__dirname + '**' + '*.entity{.ts, .js}')
+      migrationsTableName: MIGRATIONS_TABLE_NAME,
+      migrations: [`${MIGRATIONS_PATH}/*.ts`],
       ssl: this.isProduction(),
+      retryAttempts: RETRY_ATTEMPTS,
+      retryDelay: RETRY_DELAY,
+      synchronize: true,
+      autoLoadEntities: true,
     };
   }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
-  'POSTGRES_HOST',
-  'POSTGRES_PORT',
-  'POSTGRES_USER',
-  'POSTGRES_PASSWORD',
-  'POSTGRES_DATABASE',
+  CONFIG_PROPERTY_NAME.postgresHost,
+  CONFIG_PROPERTY_NAME.postgresPort,
+  CONFIG_PROPERTY_NAME.postgresUser,
+  CONFIG_PROPERTY_NAME.postgresPassword,
+  CONFIG_PROPERTY_NAME.postgresDatabase,
 ]);
 
 export { configService };

@@ -12,3 +12,10 @@ export interface SignUp {
 export interface AccessToken {
   accessToken: string;
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+}
