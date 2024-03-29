@@ -5,7 +5,7 @@ import { UserEntity } from 'src/model/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class UserService {
+export class UserApiService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
@@ -19,8 +19,12 @@ export class UserService {
     ).length;
   }
 
-  public async getUser(email: string): Promise<UserEntity> {
+  public async getUserByEmail(email: string): Promise<UserEntity> {
     return await this.usersRepository.findOne({ where: { email } });
+  }
+
+  public async getUserById(id: number): Promise<UserEntity> {
+    return await this.usersRepository.findOne({ where: { id } });
   }
 
   public async addUser(user: Omit<User, 'id'>): Promise<UserEntity> {

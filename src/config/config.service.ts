@@ -7,6 +7,7 @@ import {
   RETRY_ATTEMPTS,
   RETRY_DELAY,
 } from './config.constants';
+import { UserEntity } from 'src/model/user.entity';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -46,7 +47,7 @@ export class ConfigService {
       username: this.getValue(CONFIG_PROPERTY_NAME.postgresUser),
       password: this.getValue(CONFIG_PROPERTY_NAME.postgresPassword),
       database: this.getValue(CONFIG_PROPERTY_NAME.postgresDatabase),
-      entities: [], //`${ENTITY_PATH}/**/*.entity{.ts,.js}` //join(__dirname + '**' + '*.entity{.ts, .js}')
+      entities: [UserEntity], //`${ENTITY_PATH}/**/*.entity{.ts,.js}` //join(__dirname + '**' + '*.entity{.ts, .js}')
       migrationsTableName: MIGRATIONS_TABLE_NAME,
       migrations: [`${MIGRATIONS_PATH}/*.ts`],
       ssl: this.isProduction(),

@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './controllers/auth/auth.constants';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
+import { UserModule } from './controllers/user/user.module';
 
 @Module({
   providers: [
@@ -13,15 +14,15 @@ import { configService } from './config/config.service';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-
     Reflector,
   ],
   imports: [
     AuthModule,
+    UserModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '15m' },
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
   ],

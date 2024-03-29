@@ -7,18 +7,18 @@ import { JwtService } from '@nestjs/jwt';
 import { AccessToken, SignIn, SignUp } from './auth.typings';
 import { HttpErrorCode } from 'src/typings/http-errors';
 import { PasswordService } from 'src/services/password.service';
-import { UserService } from 'src/services/database/user.service';
+import { UserApiService } from 'src/services/database/user-api.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private userApiService: UserApiService,
     private jwtService: JwtService,
     private passwordService: PasswordService,
   ) {}
 
   public async signIn(signInData: SignIn): Promise<AccessToken> {
-    const user = await this.userService.getUser(signInData.email);
+    const user = await this.userApiService.getUserByEmail(signInData.email);
     if (!user) {
       throw new UnauthorizedException([HttpErrorCode.InvalidCreds]);
     }
@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   public async signUp(signUpData: SignUp): Promise<AccessToken> {
-    const isSameUserExists = await this.userService.isSameUserExists(
+    const isSameUserExists = await this.userApiService.isSameUserExists(
       signUpData.email,
     );
     if (isSameUserExists) {
@@ -47,7 +47,7 @@ export class AuthService {
     const hashedPassword = await this.passwordService.hashPassword(
       signUpData.password,
     );
-    const addedUser = await this.userService.addUser({
+    const addedUser = await this.userApiService.addUser({
       ...signUpData,
       password: hashedPassword,
     });
