@@ -10,7 +10,7 @@ export interface Task {
   endDate?: Date;
   reminder?: Date;
   reccurance?: TaskReccurance;
-  userId: User['id'];
+  user: User;
 }
 
 export type TaskPriority = 'Low' | 'Medium' | 'High';

@@ -11,11 +11,11 @@ export class TaskService {
     userId: User['id'],
     taskId: Task['id'],
   ): Promise<Task> {
-    return this.getTaskById(userId, taskId);
+    return this.taskApiSerivce.getTaskById(userId, taskId);
   }
 
   public async getAllTasks(userId: User['id']): Promise<Task[]> {
-    return this.getAllTasks(userId);
+    return this.taskApiSerivce.getAllTasks(userId);
   }
 
   public async createTask(task: Task): Promise<Task> {

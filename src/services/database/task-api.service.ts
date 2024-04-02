@@ -16,13 +16,20 @@ export class TaskApiService {
     userId: User['id'],
     taskId: Task['id'],
   ): Promise<TaskEntity> {
-    return (
-      await this.taskRepository.find({ where: { userId, id: taskId } })
-    )[0];
+    return await this.taskRepository.findOne({
+      where: { user: { id: userId }, id: taskId },
+    });
   }
 
   public async getAllTasks(userId: User['id']): Promise<TaskEntity[]> {
-    return this.taskRepository.find({ where: { userId } });
+    console.log('get all tasks: ', userId);
+    return this.taskRepository.find({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
   }
 
   public async createTask(task: Task): Promise<TaskEntity> {
@@ -34,14 +41,19 @@ export class TaskApiService {
     taskId: Task['id'],
   ): Promise<TaskEntity> {
     const taskToDelete = await this.taskRepository.findOne({
-      where: { userId, id: taskId },
+      where: { user: { id: userId }, id: taskId },
     });
 
     return this.taskRepository.remove(taskToDelete);
   }
 
   public async editTask(userId: User['id'], task: Task): Promise<TaskEntity> {
-    await this.taskRepository.update({ userId, id: task.id }, task);
-    return this.taskRepository.findOne({ where: { userId, id: task.id } });
+    await this.taskRepository.update(
+      { user: { id: userId }, id: task.id },
+      task,
+    );
+    return this.taskRepository.findOne({
+      where: { user: { id: userId }, id: task.id },
+    });
   }
 }

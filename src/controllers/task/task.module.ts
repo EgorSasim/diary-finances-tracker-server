@@ -4,10 +4,13 @@ import { TaskEntity, TaskReccuranceEntity } from 'src/model/task.entity';
 import { TaskController } from './task.controller';
 import { TaskApiService } from 'src/services/database/task-api.service';
 import { TaskService } from './task.service';
+import { UserEntity } from 'src/model/user.entity';
 
 @Module({
   controllers: [TaskController],
-  imports: [TypeOrmModule.forFeature([TaskEntity, TaskReccuranceEntity])],
+  imports: [
+    TypeOrmModule.forFeature([TaskEntity, TaskReccuranceEntity, UserEntity]),
+  ],
   providers: [TaskService, TaskApiService],
 })
 export class TaskModule {}

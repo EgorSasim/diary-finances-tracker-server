@@ -38,8 +38,8 @@ export class TaskEntity {
   @Column({ nullable: true, type: 'date' })
   reminder?: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.id)
-  userId: number;
+  @ManyToOne(() => UserEntity, (user) => user.tasks)
+  user: UserEntity;
 
   @OneToOne(
     () => TaskReccuranceEntity,
