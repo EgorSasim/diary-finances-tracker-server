@@ -7,6 +7,7 @@ import { jwtConstants } from './controllers/auth/auth.constants';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
 import { UserModule } from './controllers/user/user.module';
+import { TaskModule } from './controllers/task/task.module';
 
 @Module({
   providers: [
@@ -19,6 +20,7 @@ import { UserModule } from './controllers/user/user.module';
   imports: [
     AuthModule,
     UserModule,
+    TaskModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
