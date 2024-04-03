@@ -38,6 +38,9 @@ export class TaskEntity {
   @Column({ nullable: true, type: 'date' })
   reminder?: Date;
 
+  @Column({ default: false, type: 'boolean' })
+  completed: boolean;
+
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: UserEntity;
 

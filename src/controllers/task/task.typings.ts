@@ -11,6 +11,7 @@ export interface Task {
   reminder?: Date;
   reccurance?: TaskReccurance;
   user: User;
+  completed: boolean;
 }
 
 export type TaskPriority = 'Low' | 'Medium' | 'High';
