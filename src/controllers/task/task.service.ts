@@ -26,7 +26,11 @@ export class TaskService {
     return this.taskApiSerivce.removeTask(userId, taskId);
   }
 
-  public async editTask(userId: number, task: Task): Promise<Task> {
-    return this.taskApiSerivce.editTask(userId, task);
+  public async editTask(
+    userId: number,
+    taskId: Task['id'],
+    updateParams: Partial<Task>,
+  ): Promise<Task> {
+    return this.taskApiSerivce.editTask(userId, taskId, updateParams);
   }
 }

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { Task } from './task.typings';
 import { TaskService } from './task.service';
 import { User } from '../user/user.typings';
@@ -10,7 +19,6 @@ export class TaskController {
   @Get()
   public getAllTasks(@Req() req: Request): Promise<Task[]> {
     const userId = +req['user']['id'];
-    console.log('get all tasks -> user id: ', userId);
     return this.taskService.getAllTasks(userId);
   }
 
@@ -24,21 +32,28 @@ export class TaskController {
 
   @Post()
   public async createTask(@Req() req: Request, @Body() body): Promise<Task> {
-    console.log('request: ', req);
-    console.log('body: ', body);
     const userId = +req['user']['id'];
     const task: Task = body;
     task.user = { id: userId } as User;
     return this.taskService.createTask(task);
   }
 
-  //   @Patch(':id')
-  //   public async updateTask(@Req() req: Request): Promise<Task> {
-  //     const userId = +req['user']['id'];
-  //   }
+  @Patch(':id')
+  public async updateTask(
+    @Req() req: Request,
+    @Body() body: Partial<Task>,
+    @Param('id') id: number,
+  ): Promise<Task> {
+    const userId = +req['user']['id'];
+    return this.taskService.editTask(userId, id, body);
+  }
 
-  //   @Delete(':id')
-  //   public async createTask(@Req() req: Request): Promise<Task> {
-  //     const userId = +req['user']['id'];
-  //   }
+  @Delete(':id')
+  public async removeTask(
+    @Req() req: Request,
+    @Param('id') id: number,
+  ): Promise<Task> {
+    const userId = +req['user']['id'];
+    return this.taskService.removeTask(userId, id);
+  }
 }

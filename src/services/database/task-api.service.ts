@@ -22,7 +22,6 @@ export class TaskApiService {
   }
 
   public async getAllTasks(userId: User['id']): Promise<TaskEntity[]> {
-    console.log('get all tasks: ', userId);
     return this.taskRepository.find({
       where: {
         user: {
@@ -47,13 +46,17 @@ export class TaskApiService {
     return this.taskRepository.remove(taskToDelete);
   }
 
-  public async editTask(userId: User['id'], task: Task): Promise<TaskEntity> {
+  public async editTask(
+    userId: User['id'],
+    taskId: Task['id'],
+    updateParams: Partial<Task>,
+  ): Promise<TaskEntity> {
     await this.taskRepository.update(
-      { user: { id: userId }, id: task.id },
-      task,
+      { user: { id: userId }, id: taskId },
+      updateParams,
     );
     return this.taskRepository.findOne({
-      where: { user: { id: userId }, id: task.id },
+      where: { user: { id: userId }, id: taskId },
     });
   }
 }
