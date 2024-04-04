@@ -4,6 +4,7 @@ import { Task } from 'src/controllers/task/task.typings';
 import { User } from 'src/controllers/user/user.typings';
 import { TaskEntity } from 'src/model/task.entity';
 import { Repository } from 'typeorm';
+import { mapTaskToTaskEntity } from './mappers';
 
 @Injectable()
 export class TaskApiService {
@@ -53,7 +54,7 @@ export class TaskApiService {
   ): Promise<TaskEntity> {
     await this.taskRepository.update(
       { user: { id: userId }, id: taskId },
-      updateParams,
+      mapTaskToTaskEntity(updateParams as Task),
     );
     return this.taskRepository.findOne({
       where: { user: { id: userId }, id: taskId },
