@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
 import { UserModule } from './controllers/user/user.module';
 import { TaskModule } from './controllers/task/task.module';
+import { NoteModule } from './controllers/note/note.module';
 
 @Module({
   providers: [
@@ -21,10 +22,11 @@ import { TaskModule } from './controllers/task/task.module';
     AuthModule,
     UserModule,
     TaskModule,
+    NoteModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '15m' },
+      signOptions: { expiresIn: '30m' },
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
   ],

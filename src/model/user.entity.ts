@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { TaskEntity } from './task.entity';
+import { NoteEntity } from './note.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -17,4 +18,7 @@ export class UserEntity {
 
   @OneToMany(() => TaskEntity, (task) => task.user)
   tasks: TaskEntity[];
+
+  @OneToMany(() => NoteEntity, (note) => note.user)
+  notes: NoteEntity[];
 }

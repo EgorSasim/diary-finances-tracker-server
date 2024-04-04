@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Task } from 'src/controllers/task/task.typings';
 import { User } from 'src/controllers/user/user.typings';
 import { TaskEntity } from 'src/model/task.entity';
 import { Repository } from 'typeorm';
-import { mapTaskToTaskEntity } from './mappers';
 
 @Injectable()
 export class TaskApiService {
@@ -15,7 +13,7 @@ export class TaskApiService {
 
   public async getTaskById(
     userId: User['id'],
-    taskId: Task['id'],
+    taskId: TaskEntity['id'],
   ): Promise<TaskEntity> {
     return await this.taskRepository.findOne({
       where: { user: { id: userId }, id: taskId },
@@ -32,13 +30,13 @@ export class TaskApiService {
     });
   }
 
-  public async createTask(task: Task): Promise<TaskEntity> {
+  public async createTask(task: TaskEntity): Promise<TaskEntity> {
     return this.taskRepository.save(task);
   }
 
   public async removeTask(
     userId: User['id'],
-    taskId: Task['id'],
+    taskId: TaskEntity['id'],
   ): Promise<TaskEntity> {
     const taskToDelete = await this.taskRepository.findOne({
       where: { user: { id: userId }, id: taskId },
@@ -49,12 +47,12 @@ export class TaskApiService {
 
   public async editTask(
     userId: User['id'],
-    taskId: Task['id'],
-    updateParams: Partial<Task>,
+    taskId: TaskEntity['id'],
+    updateParams: Partial<TaskEntity>,
   ): Promise<TaskEntity> {
     await this.taskRepository.update(
       { user: { id: userId }, id: taskId },
-      mapTaskToTaskEntity(updateParams as Task),
+      updateParams,
     );
     return this.taskRepository.findOne({
       where: { user: { id: userId }, id: taskId },

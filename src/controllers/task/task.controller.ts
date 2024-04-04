@@ -44,7 +44,6 @@ export class TaskController {
     @Body() body: Partial<Task>,
     @Param('id') id: number,
   ): Promise<Task> {
-    console.log('body: ', body);
     const userId = +req['user']['id'];
     return this.taskService.editTask(userId, id, body);
   }
