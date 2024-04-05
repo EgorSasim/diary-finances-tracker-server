@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -11,6 +12,7 @@ import {
   TaskReccurance,
   TaskReccuranceType,
 } from 'src/controllers/task/task.typings';
+import { SpaceEntity } from './space.entity';
 
 @Entity('task')
 export class TaskEntity {
@@ -49,6 +51,9 @@ export class TaskEntity {
     (taskReccurance) => taskReccurance.taskId,
   )
   taskReccurance: TaskReccurance;
+
+  @ManyToMany(() => SpaceEntity, (space) => space.tasks)
+  spaces: SpaceEntity[];
 }
 
 @Entity('task_reccurance')

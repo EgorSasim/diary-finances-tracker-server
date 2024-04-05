@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { TaskEntity } from './task.entity';
 import { NoteEntity } from './note.entity';
+import { SpaceEntity } from './space.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -21,4 +22,7 @@ export class UserEntity {
 
   @OneToMany(() => NoteEntity, (note) => note.user)
   notes: NoteEntity[];
+
+  @OneToMany(() => SpaceEntity, (space) => space.user)
+  spaces: SpaceEntity[];
 }
