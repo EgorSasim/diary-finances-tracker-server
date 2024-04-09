@@ -1,16 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { TaskEntity, TaskReccuranceEntity } from 'src/model/task.entity';
 import { TaskController } from './task.controller';
-import { TaskApiService } from 'src/services/database/task-api.service';
 import { TaskService } from './task.service';
-import { UserEntity } from 'src/model/user.entity';
+import { ServiceSharedModule } from 'src/services-shared.module';
 
 @Module({
   controllers: [TaskController],
-  imports: [
-    TypeOrmModule.forFeature([TaskEntity, TaskReccuranceEntity, UserEntity]),
-  ],
-  providers: [TaskService, TaskApiService],
+  providers: [TaskService],
+  imports: [ServiceSharedModule],
 })
 export class TaskModule {}

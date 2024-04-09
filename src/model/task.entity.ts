@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -9,10 +8,8 @@ import {
 import { UserEntity } from './user.entity';
 import {
   TaskPriority,
-  TaskReccurance,
   TaskReccuranceType,
 } from 'src/controllers/task/task.typings';
-import { SpaceEntity } from './space.entity';
 
 @Entity('task')
 export class TaskEntity {
@@ -45,15 +42,6 @@ export class TaskEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: UserEntity;
-
-  @OneToOne(
-    () => TaskReccuranceEntity,
-    (taskReccurance) => taskReccurance.taskId,
-  )
-  taskReccurance: TaskReccurance;
-
-  @ManyToMany(() => SpaceEntity, (space) => space.tasks)
-  spaces: SpaceEntity[];
 }
 
 @Entity('task_reccurance')
