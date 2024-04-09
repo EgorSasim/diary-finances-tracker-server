@@ -1,15 +1,16 @@
 import {
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  JoinTable,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
-import {
-  TaskPriority,
-  TaskReccuranceType,
-} from 'src/controllers/task/task.typings';
+import { TaskPriority } from 'src/controllers/task/task.typings';
+import { SpaceEntity } from './space.entity';
+import { TaskReccuranceEntity } from './task-reccurance.entity';
 
 @Entity('task')
 export class TaskEntity {
@@ -42,25 +43,11 @@ export class TaskEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: UserEntity;
-}
 
-@Entity('task_reccurance')
-export class TaskReccuranceEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @OneToOne(() => TaskReccuranceEntity, (reccurance) => reccurance.task)
+  reccurance: TaskReccuranceEntity;
 
-  @Column()
-  interval: number;
-
-  @Column()
-  type: TaskReccuranceType;
-
-  @Column({ nullable: true, type: 'simple-array' })
-  daysOfWeek?: string[];
-
-  @Column({ nullable: true, type: 'simple-array' })
-  daysOfMonth?: number[];
-
-  @OneToOne(() => TaskEntity, (task) => task.id)
-  taskId: number;
+  @ManyToMany(() => SpaceEntity, (space) => space.tasks)
+  @JoinTable({ name: 'tasks_spaces' })
+  spaces: SpaceEntity[];
 }

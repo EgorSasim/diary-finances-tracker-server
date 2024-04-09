@@ -8,9 +8,10 @@ import {
   RETRY_DELAY,
 } from './config.constants';
 import { UserEntity } from 'src/model/user.entity';
-import { TaskEntity, TaskReccuranceEntity } from 'src/model/task.entity';
+import { TaskEntity } from 'src/model/task.entity';
 import { NoteModule } from 'src/controllers/note/note.module';
 import { SpaceEntity } from 'src/model/space.entity';
+import { TaskReccuranceEntity } from 'src/model/task-reccurance.entity';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
