@@ -9,5 +9,5 @@ export interface Space {
 export interface SpaceCreateParams {
   noteIds: Note['id'][];
   taskIds: Task['id'][];
-  space: Space;
+  name: Space['name'];
 }

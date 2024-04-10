@@ -13,7 +13,7 @@ import { SpaceEntity } from 'src/model/space.entity';
 import { FindOptionsWhere } from 'typeorm';
 import { Space, SpaceCreateParams } from './space.typings';
 
-@Controller('note')
+@Controller('space')
 export class SpaceController {
   constructor(private spaceService: SpaceService) {}
 
@@ -43,8 +43,9 @@ export class SpaceController {
     @Body() body: SpaceCreateParams,
   ): Promise<Space> {
     const userId = +req['user']['id'];
+    console.log('body: ', body);
     return this.spaceService.createSpace(
-      body.space,
+      { name: body.name, id: null },
       userId,
       body.taskIds,
       body.noteIds,

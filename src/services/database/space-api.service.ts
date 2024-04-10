@@ -7,6 +7,8 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { UserApiService } from './user-api.service';
 import { TaskApiService } from './task-api.service';
 import { NoteApiService } from './note-api.service';
+import { TaskEntity } from 'src/model/task.entity';
+import { NoteEntity } from 'src/model/note.entity';
 
 @Injectable()
 export class SpaceApiService {
@@ -39,12 +41,22 @@ export class SpaceApiService {
     noteIds?: number[],
   ): Promise<SpaceEntity> {
     const user = await this.userApiService.getUserById(userId);
-    const tasks = await Promise.all(
-      taskIds.map((taskId) => this.taskApiService.getTaskById(userId, taskId)),
-    );
-    const notes = await Promise.all(
-      noteIds.map((noteId) => this.noteApiService.getNoteById(userId, noteId)),
-    );
+    let tasks: TaskEntity[];
+    let notes: NoteEntity[];
+    if (taskIds) {
+      tasks = await Promise.all(
+        taskIds.map((taskId) =>
+          this.taskApiService.getTaskById(userId, taskId),
+        ),
+      );
+    }
+    if (noteIds) {
+      notes = await Promise.all(
+        noteIds.map((noteId) =>
+          this.noteApiService.getNoteById(userId, noteId),
+        ),
+      );
+    }
     const spaceEntit: SpaceEntity = {
       ...space,
       notes,
