@@ -23,7 +23,12 @@ export class SpaceApiService {
   public async getSpace(
     searchParams: FindOptionsWhere<SpaceEntity>,
   ): Promise<SpaceEntity> {
-    return this.spaceRepository.findOne({ where: searchParams });
+    const obj = await this.spaceRepository.findOne({
+      where: searchParams,
+      relations: ['tasks', 'notes'],
+      select: { notes: { id: true }, tasks: { id: true } },
+    });
+    return obj;
   }
 
   public async getSpaces(
@@ -41,6 +46,8 @@ export class SpaceApiService {
     noteIds?: number[],
   ): Promise<SpaceEntity> {
     const user = await this.userApiService.getUserById(userId);
+    console.log('task ids: ', taskIds);
+    console.log('note ids: ', noteIds);
     let tasks: TaskEntity[];
     let notes: NoteEntity[];
     if (taskIds) {
@@ -57,14 +64,14 @@ export class SpaceApiService {
         ),
       );
     }
-    const spaceEntit: SpaceEntity = {
+    const spaceEntity: SpaceEntity = {
       ...space,
       notes,
       tasks,
       user,
     };
 
-    return this.spaceRepository.save(spaceEntit);
+    return this.spaceRepository.save(spaceEntity);
   }
 
   public async removeSpace(
@@ -83,11 +90,25 @@ export class SpaceApiService {
     spaceId: SpaceEntity['id'],
     updateParams: Partial<SpaceEntity>,
   ): Promise<SpaceEntity> {
-    await this.spaceRepository.update(
-      { user: { id: userId }, id: spaceId },
-      updateParams,
+    const user = await this.userApiService.getUserById(updateParams.user.id);
+    const tasks = await Promise.all(
+      updateParams.tasks.map((task) =>
+        this.taskApiService.getTaskById(user.id, task.id),
+      ),
     );
-
+    const notes = await Promise.all(
+      updateParams.notes.map((note) =>
+        this.noteApiService.getNoteById(user.id, note.id),
+      ),
+    );
+    const entity: SpaceEntity = {
+      id: +spaceId,
+      name: updateParams.name,
+      notes,
+      user,
+      tasks,
+    };
+    await this.spaceRepository.save(entity);
     return this.spaceRepository.findOne({
       where: { user: { id: userId }, id: spaceId },
     });

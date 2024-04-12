@@ -16,6 +16,5 @@ import { TaskEntity } from 'src/model/task.entity';
 
 export function mapTaskToTaskEntity(task: Task): TaskEntity {
   delete task.reccurance;
-  console.log('task: ', task);
   return { ...task } as TaskEntity;
 }

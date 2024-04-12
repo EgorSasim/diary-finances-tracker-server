@@ -12,6 +12,7 @@ import { SpaceService } from './space.service';
 import { SpaceEntity } from 'src/model/space.entity';
 import { FindOptionsWhere } from 'typeorm';
 import { Space, SpaceCreateParams } from './space.typings';
+import { mapSpaceEntityToSpace } from './space.helpers';
 
 @Controller('space')
 export class SpaceController {
@@ -20,7 +21,9 @@ export class SpaceController {
   @Get()
   public async getSpaces(@Req() req: Request): Promise<SpaceEntity[]> {
     const userId = +req['user']['id'];
-    const searchParams: FindOptionsWhere<SpaceEntity> = { id: userId };
+    const searchParams: FindOptionsWhere<SpaceEntity> = {
+      user: { id: userId },
+    };
     return this.spaceService.getSpaces(searchParams);
   }
 
@@ -28,13 +31,14 @@ export class SpaceController {
   public async getSpaceById(
     @Req() req: Request,
     @Param('id') id: number,
-  ): Promise<SpaceEntity> {
+  ): Promise<Space> {
     const userId = +req['user']['id'];
     const searchParams: FindOptionsWhere<SpaceEntity> = {
       user: { id: userId },
       id,
     };
-    return this.spaceService.getSpace(searchParams);
+    const entity = await this.spaceService.getSpace(searchParams);
+    return mapSpaceEntityToSpace(entity);
   }
 
   @Post()
@@ -43,13 +47,13 @@ export class SpaceController {
     @Body() body: SpaceCreateParams,
   ): Promise<Space> {
     const userId = +req['user']['id'];
-    console.log('body: ', body);
-    return this.spaceService.createSpace(
-      { name: body.name, id: null },
+    const entity = await this.spaceService.createSpace(
+      { name: body.name, id: null, noteIds: [], taskIds: [] },
       userId,
       body.taskIds,
       body.noteIds,
     );
+    return mapSpaceEntityToSpace(entity);
   }
 
   @Patch(':id')
@@ -57,9 +61,10 @@ export class SpaceController {
     @Req() req: Request,
     @Body() body: Partial<Space>,
     @Param('id') id: number,
-  ): Promise<SpaceEntity> {
+  ): Promise<Space> {
     const userId = +req['user']['id'];
-    return this.spaceService.editSpace(userId, id, body);
+    const entity = await this.spaceService.editSpace(userId, id, body);
+    return mapSpaceEntityToSpace(entity);
   }
 
   @Delete(':id')
@@ -68,6 +73,7 @@ export class SpaceController {
     @Param('id') id: number,
   ): Promise<Space> {
     const userId = +req['user']['id'];
-    return this.spaceService.removeSpace(userId, id);
+    const entity = await this.spaceService.removeSpace(userId, id);
+    return mapSpaceEntityToSpace(entity);
   }
 }
