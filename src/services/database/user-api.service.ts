@@ -11,16 +11,16 @@ export class UserApiService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  public async isSameUserExists(email: string): Promise<boolean> {
+  public async isSameUserExists(login: string): Promise<boolean> {
     return !!(
       await this.usersRepository.find({
-        where: { email: email },
+        where: { login },
       })
     ).length;
   }
 
-  public async getUserByEmail(email: string): Promise<UserEntity> {
-    return await this.usersRepository.findOne({ where: { email } });
+  public async getUserByLogin(login: string): Promise<UserEntity> {
+    return await this.usersRepository.findOne({ where: { login } });
   }
 
   public async getUserById(id: number): Promise<UserEntity> {

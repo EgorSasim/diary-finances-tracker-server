@@ -1,12 +1,12 @@
 export interface SignIn {
-  email: string;
+  login: string;
   password: string;
 }
 
 export interface SignUp {
   email: string;
   password: string;
-  name: string;
+  login: string;
 }
 
 export interface AccessToken {

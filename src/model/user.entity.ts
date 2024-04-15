@@ -8,11 +8,11 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   email: string;
 
-  @Column()
-  name: string;
+  @Column({ unique: true })
+  login: string;
 
   @Column()
   password: string;

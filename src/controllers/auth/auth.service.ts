@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   public async signIn(signInData: SignIn): Promise<AccessToken> {
-    const user = await this.userApiService.getUserByEmail(signInData.email);
+    const user = await this.userApiService.getUserByLogin(signInData.login);
     if (!user) {
       throw new UnauthorizedException([HttpErrorCode.InvalidCreds]);
     }
@@ -30,7 +30,7 @@ export class AuthService {
     ) {
       throw new UnauthorizedException([HttpErrorCode.InvalidCreds]);
     }
-    const payload = { id: user.id, email: user.email };
+    const payload = { id: user.id, login: user.login };
     const accessToken = await this.jwtService.signAsync(payload);
     return {
       accessToken,
@@ -39,7 +39,7 @@ export class AuthService {
 
   public async signUp(signUpData: SignUp): Promise<AccessToken> {
     const isSameUserExists = await this.userApiService.isSameUserExists(
-      signUpData.email,
+      signUpData.login,
     );
     if (isSameUserExists) {
       throw new ConflictException([HttpErrorCode.UserDuplicate]);
@@ -51,7 +51,7 @@ export class AuthService {
       ...signUpData,
       password: hashedPassword,
     });
-    const payload = { id: addedUser.id, email: signUpData.email };
+    const payload = { id: addedUser.id, login: signUpData.login };
     const accessToken = await this.jwtService.signAsync(payload);
     return {
       accessToken,
