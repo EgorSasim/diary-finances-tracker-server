@@ -11,9 +11,10 @@ export interface Task {
   reminder?: Date;
   reccurance?: TaskReccurance;
   user: User;
-  completed: boolean;
+  status: TaskStatus;
 }
 
+export type TaskStatus = 'ToDo' | 'InProgress' | 'Done';
 export type TaskPriority = 'Low' | 'Medium' | 'High';
 
 export interface TaskReccurance {

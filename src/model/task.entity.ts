@@ -8,7 +8,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { TaskPriority } from 'src/controllers/task/task.typings';
+import { TaskPriority, TaskStatus } from 'src/controllers/task/task.typings';
 import { SpaceEntity } from './space.entity';
 import { TaskReccuranceEntity } from './task-reccurance.entity';
 
@@ -38,8 +38,8 @@ export class TaskEntity {
   @Column({ nullable: true, type: 'date' })
   reminder?: Date;
 
-  @Column({ default: false, type: 'boolean' })
-  completed: boolean;
+  @Column({ nullable: true })
+  status: TaskStatus;
 
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: UserEntity;
