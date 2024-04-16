@@ -14,6 +14,17 @@ export interface Task {
   status: TaskStatus;
 }
 
+export interface TaskSearchParams {
+  id?: number;
+  title?: string;
+  creationDate?: Date;
+  description?: string;
+  priority?: TaskPriority;
+  startDate?: Date;
+  endDate?: Date;
+  status?: TaskStatus;
+}
+
 export type TaskStatus = 'ToDo' | 'InProgress' | 'Done';
 export type TaskPriority = 'Low' | 'Medium' | 'High';
 

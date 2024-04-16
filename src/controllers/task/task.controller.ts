@@ -6,9 +6,10 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
 } from '@nestjs/common';
-import { Task } from './task.typings';
+import { Task, TaskSearchParams } from './task.typings';
 import { TaskService } from './task.service';
 import { User } from '../user/user.typings';
 
@@ -17,9 +18,13 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Get()
-  public getAllTasks(@Req() req: Request): Promise<Task[]> {
+  public getTasks(
+    @Req() req: Request,
+    @Query() taskSearchParams: TaskSearchParams,
+  ): Promise<Task[]> {
+    console.log('query: ', taskSearchParams);
     const userId = +req['user']['id'];
-    return this.taskService.getAllTasks(userId);
+    return this.taskService.getTasks(userId, taskSearchParams);
   }
 
   @Get(':id')

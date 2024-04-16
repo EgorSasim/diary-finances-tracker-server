@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TaskSearchParams } from 'src/controllers/task/task.typings';
 import { User } from 'src/controllers/user/user.typings';
 import { TaskEntity } from 'src/model/task.entity';
 import { Repository } from 'typeorm';
@@ -20,12 +21,16 @@ export class TaskApiService {
     });
   }
 
-  public async getAllTasks(userId: User['id']): Promise<TaskEntity[]> {
+  public async getTasks(
+    userId: User['id'],
+    searchParams: TaskSearchParams,
+  ): Promise<TaskEntity[]> {
     return this.taskRepository.find({
       where: {
         user: {
           id: userId,
         },
+        ...searchParams,
       },
     });
   }

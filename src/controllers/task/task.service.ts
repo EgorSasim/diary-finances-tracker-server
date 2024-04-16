@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TaskApiService } from 'src/services/database/task-api.service';
-import { Task } from './task.typings';
+import { Task, TaskSearchParams } from './task.typings';
 import { User } from '../user/user.typings';
 import { mapTaskToTaskEntity } from './mappers';
 
@@ -15,8 +15,11 @@ export class TaskService {
     return this.taskApiSerivce.getTaskById(userId, taskId);
   }
 
-  public async getAllTasks(userId: User['id']): Promise<Task[]> {
-    return this.taskApiSerivce.getAllTasks(userId);
+  public async getTasks(
+    userId: User['id'],
+    searchParams: TaskSearchParams,
+  ): Promise<Task[]> {
+    return this.taskApiSerivce.getTasks(userId, searchParams);
   }
 
   public async createTask(task: Task): Promise<Task> {
