@@ -12,6 +12,7 @@ import {
 import { Task, TaskSearchParams } from './task.typings';
 import { TaskService } from './task.service';
 import { User } from '../user/user.typings';
+import { setSearchParamsTuthyTypes } from './mappers';
 
 @Controller('task')
 export class TaskController {
@@ -22,9 +23,11 @@ export class TaskController {
     @Req() req: Request,
     @Query() taskSearchParams: TaskSearchParams,
   ): Promise<Task[]> {
-    console.log('query: ', taskSearchParams);
     const userId = +req['user']['id'];
-    return this.taskService.getTasks(userId, taskSearchParams);
+    return this.taskService.getTasks(
+      userId,
+      setSearchParamsTuthyTypes(taskSearchParams),
+    );
   }
 
   @Get(':id')

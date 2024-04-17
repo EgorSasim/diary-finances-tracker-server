@@ -25,7 +25,6 @@ export class TaskApiService {
     userId: User['id'],
     searchParams: TaskSearchParams,
   ): Promise<TaskEntity[]> {
-    console.log('search params in api: ', searchParams);
     return this.taskRepository.find({
       where: {
         user: {
