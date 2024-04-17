@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TaskSearchParams } from 'src/controllers/task/task.typings';
 import { User } from 'src/controllers/user/user.typings';
 import { TaskEntity } from 'src/model/task.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class TaskApiService {
@@ -25,12 +25,14 @@ export class TaskApiService {
     userId: User['id'],
     searchParams: TaskSearchParams,
   ): Promise<TaskEntity[]> {
+    console.log('search params in api: ', searchParams);
     return this.taskRepository.find({
       where: {
         user: {
           id: userId,
         },
         ...searchParams,
+        title: searchParams.title ? Like(`%${searchParams.title}%`) : null,
       },
     });
   }

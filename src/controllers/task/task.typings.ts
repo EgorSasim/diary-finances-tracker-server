@@ -15,7 +15,6 @@ export interface Task {
 }
 
 export interface TaskSearchParams {
-  id?: number;
   title?: string;
   creationDate?: Date;
   description?: string;

@@ -19,7 +19,16 @@ export class TaskService {
     userId: User['id'],
     searchParams: TaskSearchParams,
   ): Promise<Task[]> {
-    return this.taskApiSerivce.getTasks(userId, searchParams);
+    const params: TaskSearchParams = {};
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value && value !== 'null') {
+        console.log('value: ', value);
+        params[key] = value;
+      }
+    });
+    console.log('search params:  ', searchParams);
+    console.log('params: ', params);
+    return this.taskApiSerivce.getTasks(userId, params);
   }
 
   public async createTask(task: Task): Promise<Task> {

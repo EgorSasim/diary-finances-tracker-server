@@ -10,6 +10,7 @@ import { UserModule } from './controllers/user/user.module';
 import { TaskModule } from './controllers/task/task.module';
 import { NoteModule } from './controllers/note/note.module';
 import { SpaceModule } from './controllers/space/space.module';
+import { TestModule } from './test/test.module';
 
 @Module({
   providers: [
@@ -25,6 +26,7 @@ import { SpaceModule } from './controllers/space/space.module';
     TaskModule,
     NoteModule,
     SpaceModule,
+    TestModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

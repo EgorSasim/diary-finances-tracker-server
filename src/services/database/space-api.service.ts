@@ -46,8 +46,6 @@ export class SpaceApiService {
     noteIds?: number[],
   ): Promise<SpaceEntity> {
     const user = await this.userApiService.getUserById(userId);
-    console.log('task ids: ', taskIds);
-    console.log('note ids: ', noteIds);
     let tasks: TaskEntity[];
     let notes: NoteEntity[];
     if (taskIds) {
