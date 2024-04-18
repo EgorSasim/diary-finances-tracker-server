@@ -12,7 +12,7 @@ import {
 import { Task, TaskSearchParams } from './task.typings';
 import { TaskService } from './task.service';
 import { User } from '../user/user.typings';
-import { setSearchParamsTuthyTypes } from './mappers';
+import { setTaskSearchParamsTuthyTypes, setTaskTuthyTypes } from './mappers';
 
 @Controller('task')
 export class TaskController {
@@ -26,7 +26,7 @@ export class TaskController {
     const userId = +req['user']['id'];
     return this.taskService.getTasks(
       userId,
-      setSearchParamsTuthyTypes(taskSearchParams),
+      setTaskSearchParamsTuthyTypes(taskSearchParams),
     );
   }
 
@@ -41,7 +41,7 @@ export class TaskController {
   @Post()
   public async createTask(@Req() req: Request, @Body() body): Promise<Task> {
     const userId = +req['user']['id'];
-    const task: Task = body;
+    const task: Task = setTaskTuthyTypes(body);
     task.user = { id: userId } as User;
     return this.taskService.createTask(task);
   }
@@ -53,7 +53,11 @@ export class TaskController {
     @Param('id') id: number,
   ): Promise<Task> {
     const userId = +req['user']['id'];
-    return this.taskService.editTask(userId, id, body);
+    return this.taskService.editTask(
+      userId,
+      id,
+      setTaskTuthyTypes(body as Task),
+    );
   }
 
   @Delete(':id')

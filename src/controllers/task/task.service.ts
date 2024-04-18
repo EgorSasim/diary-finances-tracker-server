@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TaskApiService } from 'src/services/database/task-api.service';
 import { Task, TaskSearchParams } from './task.typings';
 import { User } from '../user/user.typings';
-import { mapTaskToTaskEntity } from './mappers';
+import { TaskEntity } from 'src/model/task.entity';
 
 @Injectable()
 export class TaskService {
@@ -19,11 +19,13 @@ export class TaskService {
     userId: User['id'],
     searchParams: TaskSearchParams,
   ): Promise<Task[]> {
+    // console.log('search params: ', searchParams);
     return this.taskApiSerivce.getTasks(userId, searchParams);
   }
 
   public async createTask(task: Task): Promise<Task> {
-    return this.taskApiSerivce.createTask(mapTaskToTaskEntity(task));
+    console.log('task: ', task);
+    return this.taskApiSerivce.createTask(task as TaskEntity);
   }
 
   public async removeTask(userId: number, taskId: Task['id']): Promise<Task> {
@@ -35,10 +37,11 @@ export class TaskService {
     taskId: Task['id'],
     updateParams: Partial<Task>,
   ): Promise<Task> {
+    console.log('update params: ', updateParams);
     return this.taskApiSerivce.editTask(
       userId,
       taskId,
-      mapTaskToTaskEntity(updateParams as Task),
+      updateParams as TaskEntity,
     );
   }
 }

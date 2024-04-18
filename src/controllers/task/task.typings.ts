@@ -3,7 +3,7 @@ import { User } from '../user/user.typings';
 export interface Task {
   id: number;
   title: string;
-  readonly creationDate: Date;
+  creationDate: Date;
   description?: string;
   priority?: TaskPriority;
   startDate?: Date;

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TaskSearchParams } from 'src/controllers/task/task.typings';
 import { User } from 'src/controllers/user/user.typings';
 import { TaskEntity } from 'src/model/task.entity';
-import { Like, Repository } from 'typeorm';
+import { LessThanOrEqual, Like, MoreThanOrEqual, Repository } from 'typeorm';
 
 @Injectable()
 export class TaskApiService {
@@ -32,6 +32,12 @@ export class TaskApiService {
         },
         ...searchParams,
         title: searchParams.title ? Like(`%${searchParams.title}%`) : null,
+        startDate: searchParams.startDate
+          ? MoreThanOrEqual(searchParams.startDate)
+          : null,
+        endDate: searchParams.endDate
+          ? LessThanOrEqual(searchParams.endDate)
+          : null,
       },
     });
   }
