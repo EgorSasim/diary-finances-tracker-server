@@ -41,6 +41,9 @@ export class TaskEntity {
   @Column({ nullable: true })
   status: TaskStatus;
 
+  @Column({ nullable: true })
+  color: string;
+
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: UserEntity;
 

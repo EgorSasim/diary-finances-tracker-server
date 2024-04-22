@@ -12,6 +12,7 @@ export interface Task {
   reccurance?: TaskReccurance;
   user: User;
   status: TaskStatus;
+  color?: string;
 }
 
 export interface TaskSearchParams {
@@ -22,6 +23,7 @@ export interface TaskSearchParams {
   startDate?: Date;
   endDate?: Date;
   status?: TaskStatus;
+  color?: string;
 }
 
 export type TaskStatus = 'NoStatus' | 'ToDo' | 'InProgress' | 'Done';

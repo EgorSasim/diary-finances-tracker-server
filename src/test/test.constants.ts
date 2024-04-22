@@ -23,8 +23,8 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
         priority: 'High',
         startDate: new Date(Date.now()),
         status: 'Done',
-
         user,
+        color: generateRandomHexColor(),
       },
       {
         id: 20,
@@ -36,6 +36,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
         startDate: new Date(Date.now()),
         endDate: new Date(Date.now() + 12 * 60 * 60 * 1000),
         user,
+        color: generateRandomHexColor(),
       },
       {
         id: 21,
@@ -45,8 +46,8 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
         priority: 'Low',
         startDate: new Date(Date.now()),
         status: 'InProgress',
-
         user,
+        color: generateRandomHexColor(),
       },
     ];
   }
@@ -63,6 +64,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       reminder: new Date(2024, 4, 18),
       status: 'ToDo',
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 2,
@@ -73,6 +75,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'InProgress',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 3,
@@ -84,6 +87,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'Done',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 4,
@@ -95,6 +99,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 5,
@@ -105,6 +110,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'InProgress',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 6,
@@ -117,6 +123,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 7,
@@ -128,6 +135,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 8,
@@ -139,6 +147,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'InProgress',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 9,
@@ -149,6 +158,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'Done',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 10,
@@ -160,6 +170,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'Done',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 11,
@@ -172,6 +183,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 12,
@@ -183,6 +195,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 13,
@@ -194,6 +207,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 14,
@@ -204,6 +218,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 15,
@@ -215,6 +230,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'InProgress',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 16,
@@ -226,6 +242,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'ToDo',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 17,
@@ -237,6 +254,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'InProgress',
 
       user,
+      color: generateRandomHexColor(),
     },
     {
       id: 18,
@@ -247,6 +265,7 @@ export function getTestTasksData(user): Partial<TaskEntity>[] {
       status: 'Done',
 
       user,
+      color: generateRandomHexColor(),
     },
   ];
 }
@@ -323,4 +342,12 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       user,
     },
   ];
+}
+
+function generateRandomHexColor() {
+  let hex = '#';
+  for (let i = 0; i < 6; i++) {
+    hex += Math.floor(Math.random() * 16).toString(16);
+  }
+  return hex;
 }
