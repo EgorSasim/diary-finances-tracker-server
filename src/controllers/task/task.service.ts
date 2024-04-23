@@ -19,12 +19,10 @@ export class TaskService {
     userId: User['id'],
     searchParams: TaskSearchParams,
   ): Promise<Task[]> {
-    // console.log('search params: ', searchParams);
     return this.taskApiSerivce.getTasks(userId, searchParams);
   }
 
   public async createTask(task: Task): Promise<Task> {
-    console.log('task: ', task);
     return this.taskApiSerivce.createTask(task as TaskEntity);
   }
 
@@ -37,7 +35,6 @@ export class TaskService {
     taskId: Task['id'],
     updateParams: Partial<Task>,
   ): Promise<Task> {
-    console.log('update params: ', updateParams);
     return this.taskApiSerivce.editTask(
       userId,
       taskId,

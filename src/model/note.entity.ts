@@ -20,6 +20,9 @@ export class NoteEntity {
   @Column({ nullable: true })
   description: string;
 
+  @Column({ nullable: false })
+  creationDate: Date;
+
   @ManyToOne(() => UserEntity, (user) => user.notes)
   user: UserEntity;
 
