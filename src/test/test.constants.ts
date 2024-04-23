@@ -278,7 +278,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         'Milk, bread, eggs, vegetables (carrots, potatoes, onions), fruits (apples, oranges, bananas)',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 2, 20),
     },
     {
       id: 2,
@@ -286,7 +286,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         '1. Project update - Discuss progress and roadblocks. 2. Client feedback - Review client comments and action items. 3. Next steps - Determine next steps and deadlines.',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 2, 16),
     },
     {
       id: 3,
@@ -294,7 +294,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         '"The best and most beautiful things in the world cannot be seen or even touched - they must be felt with the heart." - Helen Keller',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 1, 3),
     },
     {
       id: 4,
@@ -302,7 +302,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         "Highly recommend watching 'Parasite' (2019). A dark comedy thriller with a surprising twist!",
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 4, 1),
     },
     {
       id: 5,
@@ -310,14 +310,14 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         'Check out this website (URL freecodecamp org) for free coding tutorials.',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 5, 12),
     },
     {
       id: 6,
       title: 'Important Reminder',
       description: "Don't forget to pick up medication at the pharmacy today!",
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 2, 1),
     },
     {
       id: 7,
@@ -325,7 +325,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         'Get a gift certificate for their favorite online store. Safe and convenient!',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 1, 3),
     },
     {
       id: 8,
@@ -333,7 +333,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         'Flight departs at 10:00 AM on Friday. Hotel check-in at 3:00 PM. Explore the city on Saturday and Sunday.',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 4, 18),
     },
     {
       id: 9,
@@ -341,7 +341,7 @@ export function getTestNotesData(user): Partial<NoteEntity>[] {
       description:
         '"The only way to do great work is to love what you do. If you haven\'t found it yet, keep looking. Don\'t settle." - Steve Jobs',
       user,
-      creationDate: new Date(2024, 4, 8),
+      creationDate: new Date(2024, 3, 17),
     },
     {
       id: 10,

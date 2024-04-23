@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NoteApiService } from 'src/services/database/note-api.service';
 import { User } from '../user/user.typings';
-import { Note } from './note.typings';
+import { Note, NoteSearchParams } from './note.typings';
 import { NoteEntity } from 'src/model/note.entity';
 import { UserEntity } from 'src/model/user.entity';
 
@@ -16,8 +16,11 @@ export class NoteService {
     return this.noteApiService.getNoteById(userId, noteId);
   }
 
-  public async getNotes(userId: User['id']): Promise<Note[]> {
-    return this.noteApiService.getNotes(userId);
+  public async getNotes(
+    userId: User['id'],
+    searchParams: NoteSearchParams,
+  ): Promise<Note[]> {
+    return this.noteApiService.getNotes(userId, searchParams);
   }
 
   public async createNote(note: Note): Promise<Note> {

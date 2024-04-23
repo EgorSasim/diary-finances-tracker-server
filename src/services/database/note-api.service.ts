@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NoteSearchParams } from 'src/controllers/note/note.typings';
 import { NoteEntity } from 'src/model/note.entity';
 import { UserEntity } from 'src/model/user.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class NoteApiService {
@@ -23,8 +24,17 @@ export class NoteApiService {
     });
   }
 
-  public async getNotes(userId: UserEntity['id']): Promise<NoteEntity[]> {
-    return this.noteRepository.find({ where: { user: { id: userId } } });
+  public async getNotes(
+    userId: UserEntity['id'],
+    searchParams: NoteSearchParams,
+  ): Promise<NoteEntity[]> {
+    return this.noteRepository.find({
+      where: {
+        user: { id: userId },
+        ...searchParams,
+        title: searchParams.title ? Like(`%${searchParams.title}%`) : null,
+      },
+    });
   }
 
   public async createNote(note: NoteEntity): Promise<NoteEntity> {

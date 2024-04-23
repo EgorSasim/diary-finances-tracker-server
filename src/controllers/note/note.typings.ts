@@ -7,3 +7,8 @@ export interface Note {
   creationDate: Date;
   user: User;
 }
+
+export interface NoteSearchParams {
+  title: string;
+  creationDate: Date;
+}
