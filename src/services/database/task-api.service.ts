@@ -1,15 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TaskSearchParams } from 'src/controllers/task/task.typings';
+import {
+  CreateTask,
+  EditTask,
+  TaskSearchParams,
+} from 'src/controllers/task/task.typings';
 import { User } from 'src/controllers/user/user.typings';
+import { SpaceEntity } from 'src/model/space.entity';
 import { TaskEntity } from 'src/model/task.entity';
 import { LessThanOrEqual, Like, MoreThanOrEqual, Repository } from 'typeorm';
+import { SpaceApiService } from './space-api.service';
+import { UserApiService } from './user-api.service';
 
 @Injectable()
 export class TaskApiService {
   constructor(
     @InjectRepository(TaskEntity)
     private taskRepository: Repository<TaskEntity>,
+    @Inject(forwardRef(() => SpaceApiService))
+    private spaceApiService: SpaceApiService,
+    private userApiservice: UserApiService,
   ) {}
 
   public async getTaskById(
@@ -18,6 +28,7 @@ export class TaskApiService {
   ): Promise<TaskEntity> {
     return await this.taskRepository.findOne({
       where: { user: { id: userId }, id: taskId },
+      relations: ['spaces'],
     });
   }
 
@@ -42,8 +53,24 @@ export class TaskApiService {
     });
   }
 
-  public async createTask(task: TaskEntity): Promise<TaskEntity> {
-    return this.taskRepository.save(task);
+  public async createTask(
+    userId: User['id'],
+    task: CreateTask,
+  ): Promise<TaskEntity> {
+    let spaces = null as SpaceEntity[];
+    if (task.spaces) {
+      spaces = await Promise.all(
+        task.spaces.map((spaceId) =>
+          this.spaceApiService.getSpace({ id: spaceId, user: { id: userId } }),
+        ),
+      );
+    }
+    const taskEntity = {
+      ...task,
+      spaces,
+    };
+
+    return this.taskRepository.save(taskEntity);
   }
 
   public async removeTask(
@@ -60,14 +87,30 @@ export class TaskApiService {
   public async editTask(
     userId: User['id'],
     taskId: TaskEntity['id'],
-    updateParams: Partial<TaskEntity>,
+    updateParams: Partial<EditTask>,
   ): Promise<TaskEntity> {
-    await this.taskRepository.update(
-      { user: { id: userId }, id: taskId },
-      updateParams,
-    );
+    let task = await this.getTaskById(userId, taskId);
+    task = { ...task, ...updateParams } as TaskEntity;
+    let spaces = [] as SpaceEntity[];
+    console.log('update params: ', updateParams);
+    if (updateParams.spaces) {
+      spaces = await Promise.all(
+        updateParams.spaces.map((spaceId) =>
+          this.spaceApiService.getSpace({ id: spaceId, user: { id: userId } }),
+        ),
+      );
+    }
+    task.spaces = spaces;
+    await this.taskRepository.save(task);
     return this.taskRepository.findOne({
       where: { user: { id: userId }, id: taskId },
     });
   }
 }
+
+// delete updateParams.spaceIds;
+
+// const taskEntity = {
+//   ...updateParams,
+//   spaces,
+// } as Partial<TaskEntity>;

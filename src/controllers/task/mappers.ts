@@ -1,4 +1,5 @@
 import { Task, TaskSearchParams } from 'src/controllers/task/task.typings';
+import { TaskEntity } from 'src/model/task.entity';
 
 export function setTaskSearchParamsTuthyTypes(
   searchParams: TaskSearchParams,

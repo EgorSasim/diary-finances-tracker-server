@@ -35,7 +35,8 @@ export class TaskController {
     @Req() req: Request,
     @Param('id') id: number,
   ): Promise<Task> {
-    return this.taskService.getTaskById(+req['user']['id'], +id);
+    const res = await this.taskService.getTaskById(+req['user']['id'], +id);
+    return res;
   }
 
   @Post()
@@ -43,7 +44,7 @@ export class TaskController {
     const userId = +req['user']['id'];
     const task: Task = setTaskTuthyTypes(body);
     task.user = { id: userId } as User;
-    return this.taskService.createTask(task);
+    return this.taskService.createTask(userId, task);
   }
 
   @Patch(':id')

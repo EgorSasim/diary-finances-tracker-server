@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   Space,
@@ -20,6 +20,7 @@ export class SpaceApiService {
     @InjectRepository(SpaceEntity)
     private spaceRepository: Repository<SpaceEntity>,
     private userApiService: UserApiService,
+    @Inject(forwardRef(() => TaskApiService))
     private taskApiService: TaskApiService,
     private noteApiService: NoteApiService,
   ) {}
