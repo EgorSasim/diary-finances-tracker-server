@@ -79,7 +79,6 @@ export class NoteApiService {
     noteId: NoteEntity['id'],
     updateParams: Partial<NoteWithSpaceIds>,
   ): Promise<NoteEntity> {
-    console.log('edit params: ', updateParams);
     let note = await this.getNoteById(userId, noteId);
     note = { ...note, ...updateParams };
     const spaces = await this.getRelatedSpaces(userId, updateParams.spaceIds);

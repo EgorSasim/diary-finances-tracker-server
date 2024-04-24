@@ -13,7 +13,10 @@ import { SpaceService } from './space.service';
 import { SpaceEntity } from 'src/model/space.entity';
 import { FindOptionsWhere } from 'typeorm';
 import { Space, SpaceCreateParams, SpaceSearchParams } from './space.typings';
-import { mapSpaceEntityToSpace } from './space.helpers';
+import {
+  getSpaceSearchParamsTruthyTypes,
+  mapSpaceEntityToSpace,
+} from './space.helpers';
 
 @Controller('space')
 export class SpaceController {
@@ -25,7 +28,10 @@ export class SpaceController {
     @Req() req: Request,
   ): Promise<SpaceEntity[]> {
     const userId = +req['user']['id'];
-    return this.spaceService.getSpaces(userId, params);
+    return this.spaceService.getSpaces(
+      userId,
+      getSpaceSearchParamsTruthyTypes(params),
+    );
   }
 
   @Get(':id')
