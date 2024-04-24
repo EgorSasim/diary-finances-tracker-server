@@ -7,8 +7,8 @@ import {
 } from './test.constants';
 import { TaskApiService } from 'src/services/database/task-api.service';
 import { NoteApiService } from 'src/services/database/note-api.service';
-import { NoteEntity } from 'src/model/note.entity';
 import { TaskWithSpaceIds } from 'src/controllers/task/task.typings';
+import { NoteWithSpaceIds } from 'src/controllers/note/note.typings';
 
 @Injectable()
 export class TestService {
@@ -54,7 +54,10 @@ export class TestService {
     const user = await this.userApiService.getUserByLogin('val');
     await Promise.all(
       getTestNotesData(user).map((note) =>
-        this.noteApiService.createNote(note as NoteEntity),
+        this.noteApiService.createNote(user.id, {
+          ...note,
+          spaceIds: [],
+        } as NoteWithSpaceIds),
       ),
     );
   }

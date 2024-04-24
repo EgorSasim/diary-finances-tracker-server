@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { NoteApiService } from 'src/services/database/note-api.service';
 import { User } from '../user/user.typings';
-import { Note, NoteSearchParams } from './note.typings';
-import { NoteEntity } from 'src/model/note.entity';
-import { UserEntity } from 'src/model/user.entity';
+import {
+  Note,
+  NoteSearchParams,
+  NoteWithSpaceIds,
+  NoteWithSpaces,
+} from './note.typings';
 
 @Injectable()
 export class NoteService {
@@ -19,12 +22,15 @@ export class NoteService {
   public async getNotes(
     userId: User['id'],
     searchParams: NoteSearchParams,
-  ): Promise<Note[]> {
+  ): Promise<NoteWithSpaces[]> {
     return this.noteApiService.getNotes(userId, searchParams);
   }
 
-  public async createNote(note: Note): Promise<Note> {
-    return this.noteApiService.createNote(note as NoteEntity);
+  public async createNote(
+    userId: number,
+    note: NoteWithSpaceIds,
+  ): Promise<NoteWithSpaces> {
+    return this.noteApiService.createNote(userId, note);
   }
 
   public async removeNote(
@@ -37,12 +43,8 @@ export class NoteService {
   public async editNote(
     userId: User['id'],
     noteId: Note['id'],
-    updateParams: Partial<Note>,
-  ): Promise<Note> {
-    return this.noteApiService.editNote(
-      userId,
-      noteId,
-      updateParams as UserEntity,
-    );
+    updateParams: Partial<NoteWithSpaceIds>,
+  ): Promise<NoteWithSpaces> {
+    return this.noteApiService.editNote(userId, noteId, updateParams);
   }
 }

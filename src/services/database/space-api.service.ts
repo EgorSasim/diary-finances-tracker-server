@@ -22,6 +22,7 @@ export class SpaceApiService {
     private userApiService: UserApiService,
     @Inject(forwardRef(() => TaskApiService))
     private taskApiService: TaskApiService,
+    @Inject(forwardRef(() => NoteApiService))
     private noteApiService: NoteApiService,
   ) {}
 

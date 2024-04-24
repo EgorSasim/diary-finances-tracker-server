@@ -10,8 +10,12 @@ import {
   Req,
 } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { Note, NoteSearchParams } from './note.typings';
-import { User } from '../user/user.typings';
+import {
+  Note,
+  NoteSearchParams,
+  NoteWithSpaceIds,
+  NoteWithSpaces,
+} from './note.typings';
 import { getNoteSearchParamsTruthyTypes } from './note.helpers';
 
 @Controller('note')
@@ -22,7 +26,7 @@ export class NoteController {
   public async getNotes(
     @Query() noteSearchParams: NoteSearchParams,
     @Req() req: Request,
-  ): Promise<Note[]> {
+  ): Promise<NoteWithSpaces[]> {
     const userId = +req['user']['id'];
     return this.noteService.getNotes(
       userId,
@@ -40,19 +44,20 @@ export class NoteController {
   }
 
   @Post()
-  public async createNote(@Req() req: Request, @Body() body): Promise<Note> {
+  public async createNote(
+    @Req() req: Request,
+    @Body() noteWithSpaceIds: NoteWithSpaceIds,
+  ): Promise<Note> {
     const userId = +req['user']['id'];
-    const note: Note = body;
-    note.user = { id: userId } as User;
-    return this.noteService.createNote(note);
+    return this.noteService.createNote(userId, noteWithSpaceIds);
   }
 
   @Patch(':id')
   public async updateNote(
     @Req() req: Request,
-    @Body() body: Partial<Note>,
+    @Body() body: Partial<NoteWithSpaceIds>,
     @Param('id') id: number,
-  ): Promise<Note> {
+  ): Promise<NoteWithSpaces> {
     const userId = +req['user']['id'];
     return this.noteService.editNote(userId, id, body);
   }
