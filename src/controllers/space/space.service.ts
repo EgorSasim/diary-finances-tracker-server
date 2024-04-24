@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../user/user.typings';
 import { UserEntity } from 'src/model/user.entity';
-import { Space } from './space.typings';
+import { Space, SpaceSearchParams } from './space.typings';
 import { SpaceApiService } from 'src/services/database/space-api.service';
 import { SpaceEntity } from 'src/model/space.entity';
 import { FindOptionsWhere } from 'typeorm';
@@ -19,9 +19,10 @@ export class SpaceService {
   }
 
   public async getSpaces(
-    searchParams: FindOptionsWhere<SpaceEntity>,
+    userId: number,
+    searchParams: SpaceSearchParams,
   ): Promise<SpaceEntity[]> {
-    return this.spaceApiService.getSpaces(searchParams);
+    return this.spaceApiService.getSpaces(userId, searchParams);
   }
 
   public async createSpace(
@@ -45,12 +46,20 @@ export class SpaceService {
     spaceId: SpaceEntity['id'],
     updateParams: Partial<Space>,
   ): Promise<SpaceEntity> {
-    const notes = updateParams.noteIds.map((id) => ({
-      id,
-    })) as NoteEntity[];
-    const tasks = updateParams.taskIds.map((id) => ({
-      id,
-    })) as TaskEntity[];
+    const notes = (
+      updateParams.noteIds
+        ? updateParams.noteIds.map((id) => ({
+            id,
+          }))
+        : null
+    ) as NoteEntity[];
+    const tasks = (
+      updateParams.taskIds
+        ? updateParams.taskIds.map((id) => ({
+            id,
+          }))
+        : null
+    ) as TaskEntity[];
     const params: Partial<SpaceEntity> = {
       notes: notes,
       tasks: tasks,

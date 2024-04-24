@@ -6,12 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
 } from '@nestjs/common';
 import { SpaceService } from './space.service';
 import { SpaceEntity } from 'src/model/space.entity';
 import { FindOptionsWhere } from 'typeorm';
-import { Space, SpaceCreateParams } from './space.typings';
+import { Space, SpaceCreateParams, SpaceSearchParams } from './space.typings';
 import { mapSpaceEntityToSpace } from './space.helpers';
 
 @Controller('space')
@@ -19,12 +20,12 @@ export class SpaceController {
   constructor(private spaceService: SpaceService) {}
 
   @Get()
-  public async getSpaces(@Req() req: Request): Promise<SpaceEntity[]> {
+  public async getSpaces(
+    @Query() params: SpaceSearchParams,
+    @Req() req: Request,
+  ): Promise<SpaceEntity[]> {
     const userId = +req['user']['id'];
-    const searchParams: FindOptionsWhere<SpaceEntity> = {
-      user: { id: userId },
-    };
-    return this.spaceService.getSpaces(searchParams);
+    return this.spaceService.getSpaces(userId, params);
   }
 
   @Get(':id')

@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Space } from 'src/controllers/space/space.typings';
+import {
+  Space,
+  SpaceDtoSearchParams,
+  SpaceSearchParams,
+} from 'src/controllers/space/space.typings';
 import { SpaceEntity } from 'src/model/space.entity';
 import { UserEntity } from 'src/model/user.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { UserApiService } from './user-api.service';
 import { TaskApiService } from './task-api.service';
 import { NoteApiService } from './note-api.service';
@@ -32,10 +36,20 @@ export class SpaceApiService {
   }
 
   public async getSpaces(
-    searchParams: FindOptionsWhere<SpaceEntity>,
+    userId: number,
+    searchParams: SpaceSearchParams,
   ): Promise<SpaceEntity[]> {
+    const params: SpaceDtoSearchParams = {
+      name: searchParams.name,
+    } as SpaceDtoSearchParams;
+
     return this.spaceRepository.find({
-      where: searchParams,
+      where: {
+        user: { id: userId },
+        ...params,
+        name: params.name ? Like(`%${params.name}%`) : null,
+      },
+      relations: ['tasks', 'notes'],
     });
   }
 
@@ -89,16 +103,24 @@ export class SpaceApiService {
     updateParams: Partial<SpaceEntity>,
   ): Promise<SpaceEntity> {
     const user = await this.userApiService.getUserById(updateParams.user.id);
-    const tasks = await Promise.all(
-      updateParams.tasks.map((task) =>
-        this.taskApiService.getTaskById(user.id, task.id),
-      ),
-    );
-    const notes = await Promise.all(
-      updateParams.notes.map((note) =>
-        this.noteApiService.getNoteById(user.id, note.id),
-      ),
-    );
+    let tasks = null;
+    let notes = null;
+    if (updateParams.tasks) {
+      tasks = await Promise.all(
+        updateParams.tasks.map((task) =>
+          this.taskApiService.getTaskById(user.id, task.id),
+        ),
+      );
+    }
+
+    if (updateParams.notes) {
+      notes = await Promise.all(
+        updateParams.notes.map((note) =>
+          this.noteApiService.getNoteById(user.id, note.id),
+        ),
+      );
+    }
+
     const entity: SpaceEntity = {
       id: +spaceId,
       name: updateParams.name,
