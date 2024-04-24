@@ -1,10 +1,10 @@
-import { CreateTask } from 'src/controllers/task/task.typings';
 import { NoteEntity } from 'src/model/note.entity';
+import { TaskEntity } from 'src/model/task.entity';
 
 export const TEST_USER_LOGIN = 'val';
 export const TEST_USER = {
   email: 'val@ma',
-
+  id: 1,
   login: 'val',
   password: '$2b$10$3uieSTvgcOmN2UcV7umVyu8jLp/IGF.Vbg2gcfRJ7IpOOnCcoeFWi',
   notes: [],
@@ -12,10 +12,11 @@ export const TEST_USER = {
   tasks: [],
 };
 
-export function getTestTasksData(user): Partial<CreateTask>[] {
-  function getTodaysTasks(): Partial<CreateTask>[] {
+export function getTestTasksData(user): Partial<TaskEntity>[] {
+  function getTodaysTasks(): Partial<TaskEntity>[] {
     return [
       {
+        id: 19,
         title: 'Volunteer for a cause you care about',
         creationDate: new Date(Date.now()),
         description: 'Dedicate some time to volunteering for a good cause.',
@@ -26,6 +27,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
         color: generateRandomHexColor(),
       },
       {
+        id: 20,
         title: 'Get a haircut',
         creationDate: new Date(Date.now()),
         description: 'Schedule an appointment for a haircut.',
@@ -37,6 +39,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
         color: generateRandomHexColor(),
       },
       {
+        id: 21,
         title: 'Learn a new party trick',
         creationDate: new Date(Date.now()),
         description: 'Impress your friends with a fun and unexpected skill.',
@@ -51,6 +54,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
   return [
     ...getTodaysTasks(),
     {
+      id: 1,
       title: 'Write a blog post',
       creationDate: new Date(2024, 4, 16),
       description: 'Research and write a blog post on a chosen topic.',
@@ -63,6 +67,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 2,
       title: 'Grocery shopping',
       creationDate: new Date(2024, 4, 15),
       description: 'Buy milk, bread, vegetables, and fruits.',
@@ -73,6 +78,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 3,
       title: 'Clean the apartment',
       creationDate: new Date(2024, 4, 12),
       description: 'Vacuum, dust, mop floors, clean bathrooms and kitchen.',
@@ -84,6 +90,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 4,
       title: 'Call dentist for appointment',
       creationDate: new Date(2024, 4, 10),
       description: 'Schedule a checkup and cleaning.',
@@ -95,6 +102,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 5,
       title: 'Finish reading that book',
       creationDate: new Date(2024, 3, 20),
       description: 'Read the remaining chapters of the book I started.',
@@ -105,6 +113,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 6,
       title: 'Exercise',
       creationDate: new Date(2024, 4, 16),
       description: 'Go for a run or do a workout routine.',
@@ -117,6 +126,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 7,
       title: 'Pay bills',
       creationDate: new Date(2024, 4, 14),
       description: 'Pay electricity, internet, and phone bills.',
@@ -128,6 +138,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 8,
       title: 'Learn a new skill',
       creationDate: new Date(2024, 4, 8),
       description: 'Spend some time learning a new coding language or skill.',
@@ -139,6 +150,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 9,
       title: 'Plan a weekend trip',
       creationDate: new Date(2024, 4, 5),
       description: 'Research and book a weekend getaway trip.',
@@ -149,6 +161,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 10,
       title: 'Organize your workspace',
       creationDate: new Date(2024, 4, 1),
       description: 'Declutter and organize your desk or work area.',
@@ -160,6 +173,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 11,
       title: 'Meditate',
       creationDate: new Date(2024, 4, 17),
       description:
@@ -172,6 +186,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 12,
       title: 'Write a thank-you note',
       creationDate: new Date(2024, 4, 16),
       description: 'Express gratitude to someone who helped you.',
@@ -183,6 +198,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 13,
       title: 'Review bank statements',
       creationDate: new Date(2024, 4, 15),
       description: 'Check for any suspicious activity or errors.',
@@ -194,6 +210,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 14,
       title: 'Water the plants',
       creationDate: new Date(2024, 4, 17),
       description: 'Give your indoor and outdoor plants some water.',
@@ -204,6 +221,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 15,
       title: 'Learn a new recipe',
       creationDate: new Date(2024, 4, 12),
       description: 'Find a new recipe and try cooking it.',
@@ -215,6 +233,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 16,
       title: 'Backup important files',
       creationDate: new Date(2024, 4, 10),
       description: 'Back up your important documents and data.',
@@ -226,6 +245,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 17,
       title: 'Organize a social event',
       creationDate: new Date(2024, 4, 8),
       description: 'Plan a get-together with friends or family.',
@@ -237,6 +257,7 @@ export function getTestTasksData(user): Partial<CreateTask>[] {
       color: generateRandomHexColor(),
     },
     {
+      id: 18,
       title: 'Clean out your inbox',
       creationDate: new Date(2024, 4, 5),
       description: 'Unsubscribe from unwanted emails and organize your inbox.',

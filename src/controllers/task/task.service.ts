@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { TaskApiService } from 'src/services/database/task-api.service';
-import { EditTask, Task, TaskSearchParams } from './task.typings';
+import {
+  Task,
+  TaskSearchParams,
+  TaskWithSpaceIds,
+  TaskWithSpaces,
+} from './task.typings';
 import { User } from '../user/user.typings';
 
 @Injectable()
@@ -10,18 +15,21 @@ export class TaskService {
   public async getTaskById(
     userId: User['id'],
     taskId: Task['id'],
-  ): Promise<Task> {
+  ): Promise<TaskWithSpaces> {
     return this.taskApiSerivce.getTaskById(userId, taskId);
   }
 
   public async getTasks(
     userId: User['id'],
     searchParams: TaskSearchParams,
-  ): Promise<Task[]> {
+  ): Promise<TaskWithSpaces[]> {
     return this.taskApiSerivce.getTasks(userId, searchParams);
   }
 
-  public async createTask(userId: User['id'], task: Task): Promise<Task> {
+  public async createTask(
+    userId: User['id'],
+    task: TaskWithSpaceIds,
+  ): Promise<Task> {
     return this.taskApiSerivce.createTask(userId, task);
   }
 
@@ -32,7 +40,7 @@ export class TaskService {
   public async editTask(
     userId: number,
     taskId: Task['id'],
-    updateParams: Partial<EditTask>,
+    updateParams: Partial<TaskWithSpaceIds>,
   ): Promise<Task> {
     return this.taskApiSerivce.editTask(userId, taskId, updateParams);
   }

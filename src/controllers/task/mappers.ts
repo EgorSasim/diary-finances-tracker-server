@@ -1,5 +1,7 @@
-import { Task, TaskSearchParams } from 'src/controllers/task/task.typings';
-import { TaskEntity } from 'src/model/task.entity';
+import {
+  TaskSearchParams,
+  TaskWithSpaceIds,
+} from 'src/controllers/task/task.typings';
 
 export function setTaskSearchParamsTuthyTypes(
   searchParams: TaskSearchParams,
@@ -18,7 +20,9 @@ export function setTaskSearchParamsTuthyTypes(
   return searchParams;
 }
 
-export function setTaskTuthyTypes(task: Partial<Task>): Task {
+export function setTaskTuthyTypes(
+  task: Partial<TaskWithSpaceIds>,
+): TaskWithSpaceIds {
   Object.entries(task).forEach(([key, value]) => {
     if (value === 'null' || value === 'undefined') {
       task[key] = null;
@@ -36,5 +40,5 @@ export function setTaskTuthyTypes(task: Partial<Task>): Task {
   if (!task.reccurance) {
     delete task?.reccurance;
   }
-  return task as Task;
+  return task as TaskWithSpaceIds;
 }

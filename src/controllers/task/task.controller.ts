@@ -9,9 +9,13 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { Task, TaskSearchParams } from './task.typings';
+import {
+  Task,
+  TaskSearchParams,
+  TaskWithSpaceIds,
+  TaskWithSpaces,
+} from './task.typings';
 import { TaskService } from './task.service';
-import { User } from '../user/user.typings';
 import { setTaskSearchParamsTuthyTypes, setTaskTuthyTypes } from './mappers';
 
 @Controller('task')
@@ -22,7 +26,7 @@ export class TaskController {
   public getTasks(
     @Req() req: Request,
     @Query() taskSearchParams: TaskSearchParams,
-  ): Promise<Task[]> {
+  ): Promise<TaskWithSpaces[]> {
     const userId = +req['user']['id'];
     return this.taskService.getTasks(
       userId,
@@ -34,31 +38,29 @@ export class TaskController {
   public async getTaskById(
     @Req() req: Request,
     @Param('id') id: number,
-  ): Promise<Task> {
+  ): Promise<TaskWithSpaces> {
     const res = await this.taskService.getTaskById(+req['user']['id'], +id);
     return res;
   }
 
   @Post()
-  public async createTask(@Req() req: Request, @Body() body): Promise<Task> {
+  public async createTask(
+    @Req() req: Request,
+    @Body() body: TaskWithSpaceIds,
+  ): Promise<Task> {
     const userId = +req['user']['id'];
-    const task: Task = setTaskTuthyTypes(body);
-    task.user = { id: userId } as User;
+    const task = setTaskTuthyTypes(body) as TaskWithSpaceIds;
     return this.taskService.createTask(userId, task);
   }
 
   @Patch(':id')
   public async updateTask(
     @Req() req: Request,
-    @Body() body: Partial<Task>,
+    @Body() body: Partial<TaskWithSpaceIds>,
     @Param('id') id: number,
   ): Promise<Task> {
     const userId = +req['user']['id'];
-    return this.taskService.editTask(
-      userId,
-      id,
-      setTaskTuthyTypes(body as Task),
-    );
+    return this.taskService.editTask(userId, id, setTaskTuthyTypes(body));
   }
 
   @Delete(':id')
