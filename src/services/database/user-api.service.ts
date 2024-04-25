@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/controllers/user/user.typings';
+import { User, UserEdit } from 'src/controllers/user/user.typings';
 import { UserEntity } from 'src/model/user.entity';
 import { Repository } from 'typeorm';
+import { PasswordService } from '../password.service';
+import { HttpErrorCode } from 'src/typings/http-errors';
 
 @Injectable()
 export class UserApiService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
+    private passwordService: PasswordService,
   ) {}
 
   public async isSameUserExists(login: string): Promise<boolean> {
@@ -29,5 +32,36 @@ export class UserApiService {
 
   public async addUser(user: Omit<User, 'id'>): Promise<UserEntity> {
     return await this.usersRepository.save(user);
+  }
+
+  public async updateUser(
+    id: User['id'],
+    updateParams: UserEdit,
+  ): Promise<UserEntity> {
+    const user = await this.getUserById(id);
+    if (!updateParams.newPassword || !updateParams.oldPassword) {
+      const userEntity: UserEntity = {
+        ...user,
+        email: updateParams.email,
+      };
+      return this.usersRepository.save(userEntity);
+    }
+    if (
+      !(await this.passwordService.validatePassword(
+        updateParams.oldPassword,
+        user.password,
+      ))
+    ) {
+      throw new UnauthorizedException([HttpErrorCode.InvalidOldPassword]);
+    }
+    const hashedPassword = await this.passwordService.hashPassword(
+      updateParams.newPassword,
+    );
+    const userEntity: UserEntity = {
+      ...user,
+      password: hashedPassword,
+      email: updateParams.email,
+    };
+    return this.usersRepository.save(userEntity);
   }
 }

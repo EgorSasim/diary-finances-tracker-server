@@ -8,12 +8,25 @@ import { TaskEntity } from './model/task.entity';
 import { UserEntity } from './model/user.entity';
 import { SpaceApiService } from './services/database/space-api.service';
 import { SpaceEntity } from './model/space.entity';
+import { PasswordService } from './services/password.service';
 
 @Module({
-  providers: [NoteApiService, TaskApiService, UserApiService, SpaceApiService],
+  providers: [
+    NoteApiService,
+    TaskApiService,
+    UserApiService,
+    SpaceApiService,
+    PasswordService,
+  ],
   imports: [
     TypeOrmModule.forFeature([NoteEntity, TaskEntity, UserEntity, SpaceEntity]),
   ],
-  exports: [NoteApiService, TaskApiService, UserApiService, SpaceApiService],
+  exports: [
+    NoteApiService,
+    TaskApiService,
+    UserApiService,
+    SpaceApiService,
+    PasswordService,
+  ],
 })
 export class ServiceSharedModule {}
