@@ -2,6 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { TaskEntity } from './task.entity';
 import { NoteEntity } from './note.entity';
 import { SpaceEntity } from './space.entity';
+import { IncomeEntity } from './income/income.entity';
+import { IncomeTypeEntity } from './income/income-type.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -25,4 +27,10 @@ export class UserEntity {
 
   @OneToMany(() => SpaceEntity, (space) => space.user)
   spaces: SpaceEntity[];
+
+  @OneToMany(() => IncomeEntity, (income) => income.user)
+  incomes: IncomeEntity[];
+
+  @OneToMany(() => IncomeTypeEntity, (income_type) => income_type.user)
+  income_types: IncomeTypeEntity[];
 }

@@ -11,6 +11,7 @@ import { TaskModule } from './controllers/task/task.module';
 import { NoteModule } from './controllers/note/note.module';
 import { SpaceModule } from './controllers/space/space.module';
 import { TestModule } from './test/test.module';
+import { IncomeModule } from './controllers/income/income.module';
 
 @Module({
   providers: [
@@ -27,6 +28,7 @@ import { TestModule } from './test/test.module';
     NoteModule,
     SpaceModule,
     TestModule,
+    IncomeModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
