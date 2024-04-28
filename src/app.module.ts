@@ -12,6 +12,7 @@ import { NoteModule } from './controllers/note/note.module';
 import { SpaceModule } from './controllers/space/space.module';
 import { TestModule } from './test/test.module';
 import { IncomeModule } from './controllers/income/income.module';
+import { IncomeTypeModule } from './controllers/income-type/income-type.module';
 
 @Module({
   providers: [
@@ -29,6 +30,7 @@ import { IncomeModule } from './controllers/income/income.module';
     SpaceModule,
     TestModule,
     IncomeModule,
+    IncomeTypeModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

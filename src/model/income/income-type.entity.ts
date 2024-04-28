@@ -7,7 +7,7 @@ export class IncomeTypeEntity {
   id: number;
 
   @Column()
-  type: string;
+  name: string;
 
   @ManyToOne(() => UserEntity, (user) => user.income_types)
   user: UserEntity;

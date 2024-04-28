@@ -11,6 +11,8 @@ import { SpaceEntity } from './model/space.entity';
 import { PasswordService } from './services/password.service';
 import { IncomeApiService } from './services/database/income-api.service';
 import { IncomeEntity } from './model/income/income.entity';
+import { IncomeTypeApiService } from './services/database/income-type-api.service';
+import { IncomeTypeEntity } from './model/income/income-type.entity';
 
 @Module({
   providers: [
@@ -20,9 +22,11 @@ import { IncomeEntity } from './model/income/income.entity';
     SpaceApiService,
     PasswordService,
     IncomeApiService,
+    IncomeTypeApiService,
   ],
   imports: [
     TypeOrmModule.forFeature([
+      IncomeTypeEntity,
       NoteEntity,
       TaskEntity,
       UserEntity,
@@ -37,6 +41,7 @@ import { IncomeEntity } from './model/income/income.entity';
     SpaceApiService,
     PasswordService,
     IncomeApiService,
+    IncomeTypeApiService,
   ],
 })
 export class ServiceSharedModule {}

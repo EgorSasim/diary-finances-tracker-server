@@ -6,16 +6,16 @@ export class IncomeEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 10 })
+  @Column({ type: 'decimal', nullable: false })
   amount: number;
 
-  @Column()
+  @Column({ nullable: true })
   type: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: false })
   date: Date;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   comment: string;
 
   @ManyToOne(() => UserEntity, (user) => user.incomes)
