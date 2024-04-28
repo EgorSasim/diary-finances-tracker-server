@@ -7,7 +7,7 @@ export interface Income {
 }
 
 export interface IncomeSearchParams {
-  amount: number;
-  type: string;
-  date: Date;
+  amount?: number;
+  type?: string;
+  date?: Date;
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -12,6 +13,7 @@ import { IncomeService } from './income.service';
 import { Income, IncomeSearchParams } from './income.typings';
 import { User } from '../user/user.typings';
 import { getTruthyTypes } from 'src/helpers/helpers';
+import { getIncomeSearchParamsTruthyTypes } from './income.helpers';
 
 @Controller('income')
 export class IncomeController {
@@ -34,7 +36,9 @@ export class IncomeController {
     const userId: User['id'] = req['user']['id'];
     return this.incomeService.getIncomes(
       userId,
-      getTruthyTypes<IncomeSearchParams>(incomeSearchParams),
+      getIncomeSearchParamsTruthyTypes(
+        getTruthyTypes<IncomeSearchParams>(incomeSearchParams),
+      ),
     );
   }
 
@@ -62,5 +66,14 @@ export class IncomeController {
       id,
       getTruthyTypes<Partial<Income>>(income),
     );
+  }
+
+  @Delete(':id')
+  public async removeNote(
+    @Req() req: Request,
+    @Param('id') id: number,
+  ): Promise<Income> {
+    const userId = +req['user']['id'];
+    return this.incomeService.removeIncome(userId, id);
   }
 }
