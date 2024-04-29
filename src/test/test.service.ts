@@ -13,6 +13,8 @@ import { IncomeApiService } from 'src/services/database/income-api.service';
 import { IncomeTypeApiService } from 'src/services/database/income-type-api.service';
 import { getTestIncomeTypesData } from './test-incomes-types.constants';
 import { getTestIncomesData } from './test-incomes.constants';
+import { getTestExpensesData } from './test-expenses.constants';
+import { ExpenseApiService } from 'src/services/database/expense-api.service';
 
 @Injectable()
 export class TestService {
@@ -22,6 +24,7 @@ export class TestService {
     private noteApiService: NoteApiService,
     private incomeApiservice: IncomeApiService,
     private incomeTypeApiService: IncomeTypeApiService,
+    private expenseApiService: ExpenseApiService,
   ) {
     console.log('set test data...');
     setTimeout(() => {
@@ -38,6 +41,7 @@ export class TestService {
       this.setTasksData();
       this.setNotesData();
       this.setIncomesData();
+      this.setExpensesData();
     });
   }
 
@@ -84,6 +88,18 @@ export class TestService {
         this.incomeApiservice.createIncome(user.id, {
           id: null,
           ...income,
+        }),
+      ),
+    );
+  }
+
+  private async setExpensesData(): Promise<void> {
+    const user = await this.userApiService.getUserByLogin('val');
+    await Promise.all(
+      getTestExpensesData(user).map((expense) =>
+        this.expenseApiService.createExpense(user.id, {
+          id: null,
+          ...expense,
         }),
       ),
     );
