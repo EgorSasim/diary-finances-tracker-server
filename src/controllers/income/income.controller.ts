@@ -64,7 +64,7 @@ export class IncomeController {
     return this.incomeService.editIncome(
       userId,
       id,
-      getTruthyTypes<Partial<Income>>(income),
+      getTruthyTypes<Income>(income as Income),
     );
   }
 

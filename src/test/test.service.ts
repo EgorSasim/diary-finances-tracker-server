@@ -9,6 +9,10 @@ import { TaskApiService } from 'src/services/database/task-api.service';
 import { NoteApiService } from 'src/services/database/note-api.service';
 import { TaskWithSpaceIds } from 'src/controllers/task/task.typings';
 import { NoteWithSpaceIds } from 'src/controllers/note/note.typings';
+import { IncomeApiService } from 'src/services/database/income-api.service';
+import { IncomeTypeApiService } from 'src/services/database/income-type-api.service';
+import { getTestIncomeTypesData } from './test-incomes-types.constants';
+import { getTestIncomesData } from './test-incomes.constants';
 
 @Injectable()
 export class TestService {
@@ -16,6 +20,8 @@ export class TestService {
     private userApiService: UserApiService,
     private taskApiServie: TaskApiService,
     private noteApiService: NoteApiService,
+    private incomeApiservice: IncomeApiService,
+    private incomeTypeApiService: IncomeTypeApiService,
   ) {
     console.log('set test data...');
     setTimeout(() => {
@@ -31,6 +37,7 @@ export class TestService {
     this.setUserData().then(() => {
       this.setTasksData();
       this.setNotesData();
+      this.setIncomesData();
     });
   }
 
@@ -58,6 +65,26 @@ export class TestService {
           ...note,
           spaceIds: [],
         } as NoteWithSpaceIds),
+      ),
+    );
+  }
+
+  private async setIncomesData(): Promise<void> {
+    const user = await this.userApiService.getUserByLogin('val');
+    await Promise.all(
+      getTestIncomeTypesData(user).map((incomeType) =>
+        this.incomeTypeApiService.createIncomeType(user.id, {
+          id: null,
+          ...incomeType,
+        }),
+      ),
+    );
+    await Promise.all(
+      getTestIncomesData(user).map((income) =>
+        this.incomeApiservice.createIncome(user.id, {
+          id: null,
+          ...income,
+        }),
       ),
     );
   }

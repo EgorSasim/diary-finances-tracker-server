@@ -7,6 +7,5 @@ export function getTruthyTypes<T = object>(obj: T): T {
       truthyTypesObj[key] = value;
     }
   });
-
   return truthyTypesObj as T;
 }
