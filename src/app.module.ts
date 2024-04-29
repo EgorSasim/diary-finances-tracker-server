@@ -13,6 +13,8 @@ import { SpaceModule } from './controllers/space/space.module';
 import { TestModule } from './test/test.module';
 import { IncomeModule } from './controllers/income/income.module';
 import { IncomeTypeModule } from './controllers/income-type/income-type.module';
+import { ExpenseModule } from './controllers/expense/expense.module';
+import { ExpenseTypeModule } from './controllers/expense-type/expense-type.module';
 
 @Module({
   providers: [
@@ -31,6 +33,8 @@ import { IncomeTypeModule } from './controllers/income-type/income-type.module';
     TestModule,
     IncomeModule,
     IncomeTypeModule,
+    ExpenseModule,
+    ExpenseTypeModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

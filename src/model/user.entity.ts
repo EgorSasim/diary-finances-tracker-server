@@ -4,6 +4,8 @@ import { NoteEntity } from './note.entity';
 import { SpaceEntity } from './space.entity';
 import { IncomeEntity } from './income/income.entity';
 import { IncomeTypeEntity } from './income/income-type.entity';
+import { ExpenseEntity } from './expense/expense.entity';
+import { ExpenseTypeEntity } from './expense/expense-type.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -33,4 +35,10 @@ export class UserEntity {
 
   @OneToMany(() => IncomeTypeEntity, (income_type) => income_type.user)
   income_types: IncomeTypeEntity[];
+
+  @OneToMany(() => ExpenseEntity, (expense) => expense.user)
+  expenses: ExpenseEntity[];
+
+  @OneToMany(() => ExpenseTypeEntity, (epxense_type) => epxense_type.user)
+  expense_types: ExpenseTypeEntity[];
 }

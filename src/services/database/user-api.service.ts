@@ -13,6 +13,8 @@ import { HttpErrorCode } from 'src/typings/http-errors';
 import { INCOME_DEFAULT_TYPE_NAMES } from 'src/controllers/income-type/icnome-type.constants';
 import { IncomeTypeEntity } from 'src/model/income/income-type.entity';
 import { IncomeTypeApiService } from './income-type-api.service';
+import { EXPENSE_DEFAULT_TYPE_NAMES } from 'src/controllers/expense-type/expense-type.constants';
+import { ExpenseTypeApiService } from './expense-type-api.service';
 
 @Injectable()
 export class UserApiService {
@@ -22,6 +24,7 @@ export class UserApiService {
     private passwordService: PasswordService,
     @Inject(forwardRef(() => IncomeTypeApiService))
     private incomeTypeApiService: IncomeTypeApiService,
+    private expenseTypeApiService: ExpenseTypeApiService,
   ) {}
 
   public async isSameUserExists(login: string): Promise<boolean> {
@@ -42,8 +45,9 @@ export class UserApiService {
 
   public async addUser(user: Omit<User, 'id'>): Promise<UserEntity> {
     const userEntity = await this.usersRepository.save(user);
-    console.log('user Entity: ', userEntity);
-    return await this.setUserDefaultIncomeTypes(userEntity);
+    await this.setUserDefaultExpenseTypes(userEntity);
+    await this.setUserDefaultIncomeTypes(userEntity);
+    return;
   }
 
   public async updateUser(
@@ -88,6 +92,24 @@ export class UserApiService {
     const userEntity: UserEntity = {
       ...user,
       income_types: defaultIncomeTypes,
+    };
+    return await this.usersRepository.save(userEntity);
+  }
+
+  private async setUserDefaultExpenseTypes(
+    user: UserEntity,
+  ): Promise<UserEntity> {
+    const defaultExpenseTypes: IncomeTypeEntity[] = await Promise.all(
+      EXPENSE_DEFAULT_TYPE_NAMES.map((name) =>
+        this.expenseTypeApiService.createExpenseType(user.id, {
+          id: null,
+          name,
+        }),
+      ),
+    );
+    const userEntity: UserEntity = {
+      ...user,
+      income_types: defaultExpenseTypes,
     };
     return await this.usersRepository.save(userEntity);
   }

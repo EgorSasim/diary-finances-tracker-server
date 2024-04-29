@@ -14,6 +14,8 @@ import { SpaceEntity } from 'src/model/space.entity';
 import { TaskReccuranceEntity } from 'src/model/task-reccurance.entity';
 import { IncomeEntity } from 'src/model/income/income.entity';
 import { IncomeTypeEntity } from 'src/model/income/income-type.entity';
+import { ExpenseEntity } from 'src/model/expense/expense.entity';
+import { ExpenseTypeEntity } from 'src/model/expense/expense-type.entity';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -61,6 +63,8 @@ export class ConfigService {
         SpaceEntity,
         IncomeEntity,
         IncomeTypeEntity,
+        ExpenseEntity,
+        ExpenseTypeEntity,
       ], //`${ENTITY_PATH}/**/*.entity{.ts,.js}` //join(__dirname + '**' + '*.entity{.ts, .js}')
       migrationsTableName: MIGRATIONS_TABLE_NAME,
       migrations: [`${MIGRATIONS_PATH}/*.ts`],
