@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -62,5 +63,14 @@ export class ExpenseTypeController {
       id,
       getTruthyTypes<Partial<ExpenseType>>(expenseType),
     );
+  }
+
+  @Delete(':id')
+  public async removeExpenseType(
+    @Req() req: Request,
+    @Param('id') id: number,
+  ): Promise<ExpenseType> {
+    const userId: User['id'] = req['user']['id'];
+    return this.expenseTypeService.removeExpenseType(userId, id);
   }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -62,5 +63,14 @@ export class IncomeTypeController {
       id,
       getTruthyTypes<Partial<IncomeType>>(incomeType),
     );
+  }
+
+  @Delete(':id')
+  public async removeIncomeType(
+    @Req() req: Request,
+    @Param('id') id: number,
+  ): Promise<IncomeType> {
+    const userId: User['id'] = req['user']['id'];
+    return this.incomeTypeService.removeIncomeType(userId, id);
   }
 }
