@@ -51,6 +51,7 @@ export class AuthService {
       ...signUpData,
       password: hashedPassword,
     });
+    console.log('added user: ', addedUser);
     const payload = { id: addedUser.id, login: signUpData.login };
     const accessToken = await this.jwtService.signAsync(payload);
     return {

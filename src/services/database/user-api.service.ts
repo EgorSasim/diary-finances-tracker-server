@@ -47,7 +47,7 @@ export class UserApiService {
     const userEntity = await this.usersRepository.save(user);
     await this.setUserDefaultExpenseTypes(userEntity);
     await this.setUserDefaultIncomeTypes(userEntity);
-    return;
+    return userEntity;
   }
 
   public async updateUser(
